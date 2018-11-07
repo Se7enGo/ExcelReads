@@ -23,6 +23,8 @@ import seven.wapperInt.Wrapper;
 import seven.wapperInt.wapperRef.sysWppers.ResWrapperMap;
 import seven.wapperInt.wapperRef.sysWppers.ResWrapperObj;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +38,28 @@ import static seven.ExcelFactory.getBeans;
  * Created by seven on 2016/11/29.
  */
 @RunWith(BlockJUnit4ClassRunner.class)
-public class Demo {
+public class Demo<T> {
+
+    static class B<T> extends  Demo<T>{
+        private T type;
+
+        public T getType() {
+            return type;
+        }
+
+        public B(){
+            Type t = getClass().getGenericSuperclass();
+            Type[] types = ((ParameterizedType) t).getActualTypeArguments();
+            Class<T> tClass = (Class<T>) types[0];
+            try {
+                type =  tClass.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Test
     public void Test_01() throws Exception {
 
@@ -120,9 +143,18 @@ public class Demo {
     }
 
 
+    public <Z> Z test_08() throws Exception{
+        List<T> list = new ArrayList<>();
+        B<Integer> bean = new B<Integer>();
+        T o = (T) bean.getType().getClass().newInstance();
+        list.add(o);
+        return (Z) list;
+    }
+
     @Test
     public void Test_03() throws Exception {
-
+        List list = test_08();
+        System.out.println(list);
     }
 
     @Test
