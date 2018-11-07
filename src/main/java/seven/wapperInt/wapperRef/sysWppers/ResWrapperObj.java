@@ -104,7 +104,7 @@ public abstract class ResWrapperObj<T> extends WrapperObj<T> {
 						if (MeThodCaChe.containsKey(titles[j])&&!this.filterColBy_key.contains(titles[j])) {
 							if (!reg[j].equals("Null")) {
 								if (RegHelper.require(reg[j], v = getCellFormatValue(row.getCell((short) j)))) {
-									MeThodCaChe.get(titles[j]).invoke(o,titles[j],v);
+									MeThodCaChe.get(titles[j]).invoke(o,v);
 								} else {
 //									System.err.println("数据格 " + titles[j] + " 式不符合规范---->行:" + start + " 列" + j);
 								}

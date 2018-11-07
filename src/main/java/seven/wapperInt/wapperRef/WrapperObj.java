@@ -45,7 +45,7 @@ public abstract class WrapperObj<T> extends Wrapper {
 
 	protected abstract <T> T RefResWrapper(String fs, boolean isMap, String key) throws Exception;
 
-
+	//验证给定的map值是否为空字符串
 	protected boolean isNull(Map<String, String> map) {
 		boolean isN = true;
 		for (Map.Entry<String, String> s : map.entrySet()) {

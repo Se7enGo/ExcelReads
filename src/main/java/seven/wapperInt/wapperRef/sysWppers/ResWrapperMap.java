@@ -90,17 +90,17 @@ public abstract class ResWrapperMap extends WrapperObj<T> {
                         if (titles.length < row.getPhysicalNumberOfCells()) {
                             throw new Exception("列表长度小于实际列长度");
                         }
-                        if (_Require != null && (titles.length != _Require.length)) {
+                        if (_Require != null&& _Require.length != 0 && (titles.length != _Require.length)) {
                             throw new Exception("验证规则长度不对");
                         }
                     } catch (Exception e) {
                         if (config.getError_log())
                             System.err.println(
-                                    "列表长度小于实际列长度 sheet:" + start_sheet + " " + sheet.getSheetName() + "行:" + rowNum);
+                                    "列表长度小于实际列长度 sheet:" + start_sheet + " " + sheet.getSheetName() + "行:" + start);
                         continue;
                     }
                     for (int j = 0, colNum = row.getPhysicalNumberOfCells(); j < colNum; j++) {
-                        if (_Require != null && !(_Require[j].equals("Null")) && filterColBy_key.contains(titles[j])) {
+                        if (_Require != null && _Require.length != 0  &&!(_Require[j].equals("Null")) && filterColBy_key.contains(titles[j])) {
                             if (RegHelper.require(_Require[j], getCellFormatValue(row.getCell((short) j)))) {
                                 map.put(titles[j], getCellFormatValue(row.getCell((short) j)));
                             } else {
@@ -109,6 +109,7 @@ public abstract class ResWrapperMap extends WrapperObj<T> {
                             map.put(titles[j], getCellFormatValue(row.getCell((short) j)));
                         }
                     }
+                    //函数式 传递进来的函数在这里起作用
                     if (!isNull(map))
                         if (!this.filter.filter(map)) {
                             continue;

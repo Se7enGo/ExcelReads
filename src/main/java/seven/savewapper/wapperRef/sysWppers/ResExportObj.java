@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class ResExportObj extends SaveExcelObject<Object> {
 
-    public ResExportObj(List<Object> list, String path) {
+    public  ResExportObj(List<Object> list, String path) {
         super(list, path);
     }
     public ResExportObj(ResultSet resultSet, String path) {

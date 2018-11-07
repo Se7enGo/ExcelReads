@@ -19,7 +19,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import seven.ExcelFactory;
 import seven.anno.ExcelAnno;
+import seven.wapperInt.Wrapper;
 import seven.wapperInt.wapperRef.sysWppers.ResWrapperMap;
+import seven.wapperInt.wapperRef.sysWppers.ResWrapperObj;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +40,7 @@ public class Demo {
     @Test
     public void Test_01() throws Exception {
 
-        ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
+       List lie =  ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
                 new ResWrapperMap() {
                     @Override
                     protected void LoadConfig(Config config) {
@@ -48,12 +50,14 @@ public class Demo {
                 }). //这里能够处理每一行数据
                 Process((HashMap<String, String> o) -> System.out.println(o + "\n")
                 //这里能够处理时候过滤某一列
-        ).FilterCol(() -> new String[]{}
-                //这里能根据某一行的某一列的内容来取舍这行数据
-        ).Filter((HashMap<String, String> o) -> o.get("创建人") != null && o.get("创建人").length() > 5
+        ).FilterCol(( ) -> new String[]{   }
+               //这里能根据某一行的某一列的内容来取舍这行数据
+       ).Filter((HashMap<String, String> o) -> o.get("创建人") != null && o.get("创建人").length() > 5
                 //排序
         ).Sort((o1, o2) -> o1.hashCode() > o2.hashCode() ? 1 : hashCode() == o2.hashCode() ? 0 : -1).Create();
 
+        System.out.println(lie.size());
+/*
         System.out.println(
                 getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
                         new ResWrapperMap() {
@@ -94,9 +98,25 @@ public class Demo {
                         }
                 ).FilterCol(() -> new String[]{}
         ).Filter((HashMap<String, String> o) -> o.get("创建人") != null &&
-                o.get("创建人").length() > 4).<Map>CreateMap("创建人"));
+                o.get("创建人").length() > 4).<Map>CreateMap("创建人"));*/
 
 
+    }
+
+    @Test
+    public void test_07() throws Exception {
+
+
+        ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
+                new ResWrapperObj<TestBean>() {
+                    @Override
+                    protected void LoadConfig(Config config) {
+                        config.setContent_row_start(3);
+                        config.setTitle_row(2);
+                    }
+                })
+                .Filter((TestBean a ) -> Integer.valueOf(a.getAge())<=11)
+                .Create();
     }
 
 
