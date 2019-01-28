@@ -13,9 +13,9 @@ public class MainTest {
     public Parent get(Parent parent){
         System.out.println(" do nothing ");
         System.out.println(parent.getAge());
-
+        //这里可以看出来实际传递进来的类 是什么  //输出上看是个匿名内部类，并非属于Parent 类型的
         System.out.println("我是个啥："+parent.getClass().getName());
-
+        //重写父类的getName方法 在这里就有了不同的表现
         System.out.println("getName 的表现：" + parent.getName());
 
         return parent;
@@ -47,6 +47,7 @@ public class MainTest {
         //可以在重构的过程中 更符合业务设计 满足更多业务需求的同时 又不更改原有的代码逻辑
         //缺点：这样设计会利用匿名内部类的形式来改变原有的表现形式，如果通过单纯的代码跟踪会无法找到实际运行时的表现
 
-
+        //补充的知识点
+        //1.抽象类也可以继承抽象类，同时不用实现父类中的抽象方法
     }
 }
