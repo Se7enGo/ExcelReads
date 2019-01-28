@@ -50,7 +50,7 @@ public class Demo<T> {
         public B(){
             Type t = getClass().getGenericSuperclass();
             Type[] types = ((ParameterizedType) t).getActualTypeArguments();
-            Class<T> tClass = (Class<T>) types[0];
+            Class<T> tClass = (Class<T>) (types[0]);
             try {
                 type =  tClass.newInstance();
             } catch (InstantiationException e) {
@@ -130,7 +130,7 @@ public class Demo<T> {
     public void test_07() throws Exception {
 
 
-        ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
+       List list =  ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
                 new ResWrapperObj<TestBean>() {
                     @Override
                     protected void LoadConfig(Config config) {
@@ -140,6 +140,8 @@ public class Demo<T> {
                 })
                 .Filter((TestBean a ) -> Integer.valueOf(a.getAge())<=11)
                 .Create();
+
+        System.out.println("finish");
     }
 
 
