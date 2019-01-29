@@ -49,5 +49,17 @@ public class MainTest {
 
         //补充的知识点
         //1.抽象类也可以继承抽象类，同时不用实现父类中的抽象方法
+        //2. 目前观察到的现象是 子类在向上转型的过程中重写父类的方法并通过new出来之后的
+        // 参数对象才能够在 getGenericSuperclass 时 获取当前对象的真实带泛型参数的类型 Type 对象
+        // ①直接通过泛型new 对象 获取到的是 Object 对象 因为这个时候 我new 出来的 的确没有继承别的类型 形如：
+        //      class A<T> {...}   A<String> a = new A();  a.getClass().getGenericSuperclass();
+        //       获取到的 就是Object 类型的 Type
+        // ②如果加上继承 之后 会获取 到类上编译好的泛型参数Type 并不能动态的获取到 泛型参数的实际类型 形如：
+        //      class B<T> extends C<T>  B<String> b = new B(); b.getClass().getGenericSuperclass();
+        //      获取到的将是 C<T> 类型的 Type
+        // ③这里貌似使用的还是匿名函数类 的形式 在实际运行过程当中动态的生成了临时的匿名内部类，这个时候的
+        // 匿名类才是这个参数对象的 真正父类，所以一定是确定的、final 并且带 泛型参数 的类型，这个时候一定
+        // 可以通过 ((ParameterizedType)object).getActualTypeArguments 得到泛型参数数组
+        // 其实这也很符合 getGenericSuperclass 方法的表述 他返回的是对象实际运行时直接父类对象Type
     }
 }

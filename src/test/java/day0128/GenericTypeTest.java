@@ -21,6 +21,10 @@ public class GenericTypeTest {
 
         private T5 temp;
 
+
+        public Test3(T5 temp){
+            this.temp = temp;
+        }
         public T5 getTemp() {
             return temp;
         }
@@ -53,13 +57,18 @@ public class GenericTypeTest {
         }
 
         System.out.println("===============================================");
-        Test3<String> test3 = new Test3<String>();
-        test3.setTemp("'2333");
+        Test3<Integer> test3 = new Test3(6){
+
+            public void printT(Integer integer, Object o) {
+                System.out.println("int + " + integer + ",object + " + o.toString());
+            }
+        };
+        //test3.setTemp("'2333");
         Type type = test3.getClass().getGenericSuperclass();
         Type[] types1 = ((ParameterizedType)type).getActualTypeArguments();
-        System.out.println(types1[0].getClass().getName());
+        System.out.println(((Class)types1[0]).getName());
 
-        System.out.println(test3.getTemp().getClass().getName());
+        //System.out.println(test3.getTemp().getClass().getName());
 
     }
 

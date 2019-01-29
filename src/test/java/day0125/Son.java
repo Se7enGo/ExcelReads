@@ -6,7 +6,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-public class Son<T> extends Parent<T> {
+public class Son<T> extends Parent  {
 
     private String skill;
 
