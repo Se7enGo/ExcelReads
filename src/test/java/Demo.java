@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import seven.ExcelFactory;
 import seven.anno.ExcelAnno;
-import seven.wapperInt.Wrapper;
 import seven.wapperInt.wapperRef.sysWppers.ResWrapperMap;
 import seven.wapperInt.wapperRef.sysWppers.ResWrapperObj;
 
@@ -29,8 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static seven.ExcelFactory.getBeans;
 
 /**
  * [Zhihu]https://www.zhihu.com/people/Sweets07
@@ -142,6 +139,7 @@ public class Demo<T> {
                 .Create();
 
         System.out.println("finish");
+
     }
 
 

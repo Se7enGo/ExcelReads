@@ -1,6 +1,6 @@
 package day0125;
 
-public abstract class Parent  {
+public abstract class Parent<T>  {
 
 
     private String name ;

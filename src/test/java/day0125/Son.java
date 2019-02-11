@@ -1,12 +1,14 @@
 package day0125;
 
+import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-public class Son<T> extends Parent  {
+public class Son<T> extends Parent<T>  {
 
     private String skill;
 
@@ -15,7 +17,13 @@ public class Son<T> extends Parent  {
     public Son() {
         Type sType = getClass().getGenericSuperclass();
         Type[] generics = ((ParameterizedType) sType).getActualTypeArguments();
-        Class<T> mTClass = (Class<T>) (generics[0]);
+        Class<T> mTClass = null;
+        if(generics[0] instanceof TypeVariableImpl){
+            throw new RuntimeException("没有找到具体的类型，请使用匿名内部类的创建形式！");
+        }else {
+            mTClass = (Class<T>) (generics[0]);
+        }
+
         try {
             toy = mTClass.newInstance();
         } catch (Exception e) {
