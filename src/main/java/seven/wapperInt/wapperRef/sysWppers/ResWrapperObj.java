@@ -78,7 +78,7 @@ public abstract class ResWrapperObj<T> extends WrapperObj<T> {
 		T o;
 		String v;
 		int start_sheet = config.getStart_sheet();
-		Workbook hhf =  ExcelTool.newInstance(fs,false);;
+		Workbook hhf = null == this.file ?  ExcelTool.newInstance(fs,false) : ExcelTool.newInstance(fs,this.file,false);
 		int end_sheet = start_sheet + 1;
 		sheet = hhf.getSheetAt(start_sheet);
 		row = sheet.getRow(config.getTitle_row());
@@ -96,11 +96,13 @@ public abstract class ResWrapperObj<T> extends WrapperObj<T> {
 		for (; start_sheet < end_sheet; start_sheet++) {
 
 			int start = config.getContent_row_start();
-			for (int rowNum = sheet.getLastRowNum(); start < rowNum; start++) {
+			int end = null == config.getContent_row_end()  ? sheet.getLastRowNum() : config.getContent_row_end() ;
+			for (; start <= end; start++) {
 				row = sheet.getRow(start);
 				if (null != row) {
 					o = (T) type.getClass().newInstance();
-					for (int j = 0, colNum = row.getPhysicalNumberOfCells(); j < colNum; j++) {
+					int j = 0, colNum = row.getLastCellNum();
+					for (; j < colNum; j++) {
 						if (MeThodCaChe.containsKey(titles[j])&&!this.filterColBy_key.contains(titles[j])) {
 							if (!reg[j].equals("Null")) {
 								if (RegHelper.require(reg[j], v = getCellFormatValue(row.getCell((short) j)))) {
@@ -109,7 +111,8 @@ public abstract class ResWrapperObj<T> extends WrapperObj<T> {
 //									System.err.println("数据格 " + titles[j] + " 式不符合规范---->行:" + start + " 列" + j);
 								}
 							} else {
-								MeThodCaChe.get(titles[j]).invoke(o,getCellFormatValue(row.getCell((short) j)));
+								v = getCellFormatValue(row.getCell((short) j));
+								MeThodCaChe.get(titles[j]).invoke(o,v);
 							}
 						}
 					}

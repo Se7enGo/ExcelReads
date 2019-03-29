@@ -14,6 +14,8 @@
 //		   (______|______)
 //=======================================================
 
+import jdk.nashorn.internal.parser.JSONParser;
+import jdk.nashorn.internal.runtime.JSONFunctions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
@@ -22,6 +24,8 @@ import seven.anno.ExcelAnno;
 import seven.wapperInt.wapperRef.sysWppers.ResWrapperMap;
 import seven.wapperInt.wapperRef.sysWppers.ResWrapperObj;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -60,7 +64,7 @@ public class Demo<T> {
     @Test
     public void Test_01() throws Exception {
 
-       List lie =  ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
+       List<TestBean> lie =  ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
                 new ResWrapperMap() {
                     @Override
                     protected void LoadConfig(Config config) {
@@ -127,7 +131,33 @@ public class Demo<T> {
     public void test_07() throws Exception {
 
 
-       List list =  ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
+       List<TestBean> list =  ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),
+                new ResWrapperObj<TestBean>() {
+                    @Override
+                    protected void LoadConfig(Config config) {
+                        config.setContent_row_start(3);
+                        config.setTitle_row(2);
+                        config.setContent_row_end(10);
+                    }
+                })
+                .Create();
+
+       list.stream().forEach(System.out::println);
+
+        System.out.println(list.size());
+        System.out.println("finish");
+
+    }
+
+    /**
+     * 测试 输入inputStream
+     * @throws Exception
+     */
+    @Test
+    public void test_09() throws Exception{
+        File file = new File(System.getProperty("user.dir").concat("\\测试.xls"));
+        FileInputStream inputStream = new FileInputStream(file);
+        List list =  ExcelFactory.getBeans(System.getProperty("user.dir").concat("\\测试.xls"),inputStream,
                 new ResWrapperObj<TestBean>() {
                     @Override
                     protected void LoadConfig(Config config) {
@@ -137,9 +167,8 @@ public class Demo<T> {
                 })
                 .Filter((TestBean a ) -> Integer.valueOf(a.getAge())<=11)
                 .Create();
-
+        System.out.println(list);
         System.out.println("finish");
-
     }
 
 

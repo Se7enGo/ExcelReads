@@ -22,6 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.Closeable;
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -49,6 +50,16 @@ public class ExcelTool {
             return new HSSFWorkbook(new POIFSFileSystem(f));
         }
         return new XSSFWorkbook(f);
+    }
+
+    public static final Workbook newInstance(String type, InputStream input , boolean isSave) throws Exception {
+       if(null == input  )
+           throw new RuntimeException("解析Excel数据流出现异常，input数据流为空");
+        type = type.substring(type.lastIndexOf(".") + 1);
+        if (type.equals("xls")) {
+            return new HSSFWorkbook(input);
+        }
+        return new XSSFWorkbook(input);
     }
 
     public static final void  Close(Closeable... close)throws Exception{

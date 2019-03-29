@@ -18,13 +18,15 @@ package seven.wapperInt.wapperRef;
 //		   (______|______)
 //=======================================================
 
-import seven.wapperInt.Wrapper;
 import seven.callBack.DataFilterColumnInterface;
 import seven.callBack.DataFilterInterface;
 import seven.callBack.DataFilterProcessInterface;
 import seven.callBack.imp.DefaultDataFilter;
 import seven.callBack.imp.DefaultDataProFilter;
+import seven.wapperInt.Wrapper;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -41,6 +43,7 @@ public abstract class WrapperObj<T> extends Wrapper {
 	protected List<String> filterColBy_value=new ArrayList<>();
 	protected Comparator<? super Object> c=null;
 	protected String fs;
+	protected InputStream file;
 	protected static final  boolean isMap=false;
 
 	protected abstract <T> T RefResWrapper(String fs, boolean isMap, String key) throws Exception;
@@ -67,6 +70,12 @@ public abstract class WrapperObj<T> extends Wrapper {
 		return this;
 	}
 
+	public Wrapper init(String filePath,InputStream inputStream){
+	    this.fs = filePath;
+	    this.file = inputStream;
+	    return this;
+    }
+
 	public Wrapper Sort(Comparator c) {
 		this.c = c;return this;
 	}
@@ -76,7 +85,7 @@ public abstract class WrapperObj<T> extends Wrapper {
 
 	@Override
 	public  <T> T  CreateMap(String key)throws Exception {
-		return RefResWrapper(fs,!isMap,key);
+		return RefResWrapper(fs,!isMap,null) ;
 	}
 
 	public Wrapper Filter(DataFilterInterface<?> filter) {

@@ -9,6 +9,7 @@ import seven.savewapper.wapperRef.sysWppers.ResExportObj;
 import seven.wapperInt.Wrapper;
 import seven.wapperInt.wapperRef.WrapperObj;
 
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,18 @@ public class ExcelFactory {
 	public static Wrapper   getBeans(String FilePath, WrapperObj r) throws Exception {
 		return (Wrapper)r.init(FilePath);
 	}
+
+    /**
+     * 读取Excel
+     * @param FilePath
+     * @param inputStream 初始化Excel数据流
+     * @param r
+     * @return
+     * @throws Exception
+     */
+	public static Wrapper getBeans(String FilePath, InputStream inputStream,WrapperObj r) throws Exception{
+	    return  (Wrapper)r.init(FilePath,inputStream);
+    }
 
     /**
      * 保存Excel

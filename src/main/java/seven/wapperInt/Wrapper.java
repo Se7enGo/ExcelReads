@@ -73,6 +73,7 @@ public abstract class Wrapper implements Serializable, ExcelSuperInterface {
 	}
 	protected abstract void LoadConfig(Config config);
 	public Wrapper() {
+
 		LoadConfig(config);
 	}
 	public static class Config {
